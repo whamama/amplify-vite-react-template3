@@ -7,7 +7,8 @@ const client = generateClient<Schema>();
 
 function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  const { signOut } = useAuthenticator();
+  //const { signOut } = useAuthenticator();  // per user added below
+  const { user, signOut } = useAuthenticator();
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
@@ -24,7 +25,8 @@ function App() {
 
   return (
     <main>
-      <h1>My todos</h1>
+      <h1>{user?.signInDetails?.loginId}'s todos</h1>
+      {/*<h1>My todos</h1>*/}
       <button onClick={createTodo}>+ new</button>
       <ul>
         {todos.map((todo) => (
@@ -38,7 +40,7 @@ function App() {
         🥳 App successfully hosted. Try creating a new todo.
         <br />
         <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
+                   Continuous Integration-Contnuous Delivery
         </a>
       </div>
       <button onClick={signOut}>Sign out</button>

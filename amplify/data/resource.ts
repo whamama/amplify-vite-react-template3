@@ -11,7 +11,9 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [allow.owner()]), //person logged in can see their tasks only
+    //.authorization((allow) => [allow.publicApiKey()]), // can see everyone's tasks
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,7 +21,8 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
+    //defaultAuthorizationMode: "apiKey",  
+    defaultAuthorizationMode: 'userPool',//
     // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
